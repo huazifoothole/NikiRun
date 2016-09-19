@@ -42,7 +42,7 @@ public class RunHistoryDataFragment extends Fragment implements OnItemClickListe
 		public static final String HISTORY_TRACE = "history_trace";
 		public static final String ISONLYQUERY = "only_query";
 		 
-		//branch version2.0
+		//git test
 		public RunHistoryDataFragment() {
 			// TODO Auto-generated constructor stub
 			 
