@@ -132,13 +132,13 @@ public class NavigationDrawerFragment extends Fragment {
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setHomeButtonEnabled(true);
-		
+		actionBar.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.RedBar));
 		// ActionBarDrawerToggle ties together the the proper interactions
 		// between the navigation drawer and the action bar app icon.
 		mDrawerToggle = new ActionBarDrawerToggle(
 				getActivity(), /* host Activity */
 				mDrawerLayout, /* DrawerLayout object */
-				R.drawable.drawer, /*
+				R.drawable.navigation2, /*
 										 * nav drawer image to replace 'Up' caret
 										 */
 				R.string.navigation_drawer_open, /*
@@ -297,4 +297,5 @@ public class NavigationDrawerFragment extends Fragment {
 		 */
 		void onNavigationDrawerItemSelected(int position);
 	}
+	
 }

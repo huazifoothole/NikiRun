@@ -2,26 +2,34 @@ package com.example.nikirun;
 
 import android.app.Activity;
 
+import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapView;
+
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks{
 
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the
@@ -36,10 +44,25 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 	private CharSequence mTitle;
 	
 	private HomePageFragment mhomePageFragment;
+	
+	private RunHistoryDataFragment mRunHistoryDataFragment;
+	
+	/**
+     * entity标识
+     */
+    protected static String entityName = "MyRunTrace";
+    public static final String TAG = "RunTraceLog";
+    
+    
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		SDKInitializer.initialize(getApplicationContext());
+		
+		  
 		setContentView(R.layout.activity_main);
 		 
 		//This does the magic! 隐藏actionbar左侧图标  transparent透明的
@@ -48,10 +71,11 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
 		mTitle = getTitle();
-		
+	 
 
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+		
 	}
 
 	@Override
@@ -59,28 +83,41 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 		// update the main content by replacing fragments
 	
 		FragmentManager fragmentManager = getFragmentManager();
+		android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		switch (position) {
 		case 0:
 			if(mhomePageFragment == null)
 			mhomePageFragment = new HomePageFragment();
 			
-			fragmentManager.beginTransaction().replace(R.id.container, mhomePageFragment)
-			.commit();
+			fragmentTransaction.replace(R.id.container, mhomePageFragment);
+//			fragmentTransaction.addToBackStack(null);
+			 
 			mTitle = getString(R.string.title_section1);
 			restoreActionBar();
 			break;
-
+		case 1:
+			 if(mRunHistoryDataFragment == null){
+				 mRunHistoryDataFragment = new RunHistoryDataFragment();
+			 }
+			 
+			 fragmentTransaction.replace(R.id.container, mRunHistoryDataFragment);
+			 fragmentTransaction.addToBackStack(null);
+			 
+			 mTitle = getString(R.string.title_section2);
+			 restoreActionBar();
+			break;
 		default:
-			fragmentManager.beginTransaction().replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-			.commit();
+			fragmentTransaction.replace(R.id.container, PlaceholderFragment.newInstance(position + 1));
+			fragmentTransaction.addToBackStack(null);
 			break;
 		}
 		
-		Log.d("tag", "onNavigationDrawerItemSelected position="+position);
+		fragmentTransaction.commit();
+		
 	}
 
 	public void onSectionAttached(int number) {
-		Log.d("tag", "onSectionAttached="+number);
+		 
 		switch (number) {
 		case 1:
 			mTitle = getString(R.string.title_section1);
@@ -111,7 +148,7 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(mTitle);
-		Log.d("tag", "restoreActionBar title="+mTitle);
+	 
 	}
 
 	@Override
@@ -176,6 +213,10 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 			super.onAttach(activity);
 			((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
 		}
+	}
+
+	public void setTitle(String title) {
+		mTitle = title;
 	}
 
 }

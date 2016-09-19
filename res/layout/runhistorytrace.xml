@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+     <com.baidu.mapapi.map.MapView
+           android:id="@+id/bdmapview"
+           android:layout_width="match_parent"
+           android:layout_height="327dp"
+           android:clickable="true" />
+   
+    <FrameLayout 
+        android:id="@+id/fragment_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bdmapview">
+        
+    </FrameLayout>
+   
+
+</RelativeLayout>

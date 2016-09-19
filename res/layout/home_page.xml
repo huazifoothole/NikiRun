@@ -8,7 +8,8 @@
          android:id="@+id/total_rundata_layout"
          android:layout_width="match_parent"
          android:layout_height="match_parent"
-         android:layout_weight="1" >
+         android:layout_weight="1" 
+         android:background="#ffffff">
 
          <TextView
              android:id="@+id/total_kilometre_view"
@@ -18,8 +19,9 @@
              android:layout_gravity="center_horizontal"
              android:paddingTop="40dp"
              android:text="100"
-             android:textSize="30sp"
-             android:textColor="#ff0033" />
+             android:textSize="70sp"
+             android:textColor="#ff0033"
+             android:textStyle="italic|bold" />
          
          
          <TextView
@@ -28,7 +30,8 @@
              android:layout_height="wrap_content"
              android:layout_marginLeft="140dp"
              android:layout_below="@+id/total_kilometre_view"
-             android:text="总公里"/>
+             android:text="总公里"
+             android:textStyle="italic|bold"/>
          
          
          <TextView
@@ -37,44 +40,48 @@
              android:layout_height="wrap_content"
              android:layout_alignParentLeft="true"
              android:layout_below="@+id/total_kilometre_view"
-             android:layout_marginLeft="16dp"
+             android:layout_marginLeft="30dp"
              android:layout_marginTop="60dp"
-             android:text="138" />
+             android:text="138"
+             android:textStyle="italic|bold" />
 
          <TextView
              android:id="@+id/textView1"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_alignParentLeft="true"
+             android:layout_marginLeft="10dp"
              android:layout_below="@+id/runcount_view"
              android:text="总跑步次数" />
 
          <TextView
-             android:id="@+id/average_speed_view"
+             android:id="@+id/hp_aver_speed_view"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_alignBaseline="@+id/runcount_view"
              android:layout_alignBottom="@+id/runcount_view"
-             android:layout_alignLeft="@+id/total_kilometre_view"
-             android:text="5&apos;39&apos;&apos;" />
+             android:layout_alignLeft="@+id/totalkm_view"
+             android:text="5&apos;39&apos;&apos;" 
+             android:textStyle="italic|bold"/>
 
          <TextView
              android:id="@+id/textView2"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_alignBaseline="@+id/textView1"
-             android:layout_alignLeft="@id/average_speed_view"
-             android:layout_below="@id/average_speed_view"
+             android:layout_alignLeft="@id/hp_aver_speed_view"
+             android:layout_below="@id/hp_aver_speed_view"
              android:text="平均速度" />
          
          <TextView 
              android:id="@+id/nikifuel_view"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:layout_alignBaseline="@id/average_speed_view"
+             android:layout_alignBaseline="@id/hp_aver_speed_view"
              android:layout_alignParentRight="true"
              android:layout_marginRight="40dp"
              android:text="2784"
+             android:textStyle="italic|bold"
              />
          
          <TextView 
@@ -114,6 +121,7 @@
         android:layout_height="73dp"
         android:background="#ff0700" 
         android:text="开始跑步"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff"
+        />
    
 </LinearLayout>

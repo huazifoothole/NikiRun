@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    
+  	<LinearLayout 
+  	    android:id="@+id/sort_month_layout"
+  	    android:orientation="vertical"
+  	    android:layout_width="fill_parent"
+  	    android:layout_height="22dip"
+  	    android:background="#dcdcdc">
+  	    
+  	    <TextView 
+  	        android:id="@+id/sort_month_text"
+  	        android:layout_width="wrap_content"
+  	        android:layout_height="wrap_content"
+  	        android:layout_gravity="left"
+  	        android:layout_marginLeft="10dip"
+  	        android:textColor="#8b4513"
+  	        android:textSize="16sp"/>
+  	</LinearLayout>
+    
+    <RelativeLayout 
+        android:id="@+id/runhistory_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff">
+     
+      <TextView 
+        android:id="@+id/run_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2016-8-21"
+        android:textSize="13dip"/>
+     <TextView 
+        android:id="@+id/run_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/run_date"
+        android:text="6.81公里"
+        android:textColor="#FF0000"
+        android:textSize="30dip"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/run_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/run_distance"
+        android:layout_marginLeft="155dp"
+        android:text="5'30''" />
+    
+    <TextView 
+        android:id="@+id/expend_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/run_distance"
+        android:layout_marginLeft="200dp"
+        android:text="50:51"/>
+
+    <TextView
+        android:id="@+id/day_of_week"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/run_distance"
+        android:layout_marginLeft="90dp"
+        android:text="星期五"
+        android:textSize="13dip" />
+
+    </RelativeLayout>
+    
+
+</LinearLayout>

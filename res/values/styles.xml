@@ -19,10 +19,16 @@
                <item name="android:logo">@android:color/transparent</item> hide actionbar icon
          -->
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+       
+    </style>
+    
+    <style name="RunningFonts" >
+        <item name="android:textStyle">italic|bold</item>
+        <item name="android:textColor">#ffffff</item>
     </style>
     
      
-  
+  <drawable name="RedBar">#ff0700</drawable>
   
     
 </resources>

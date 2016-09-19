@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="#003366"
+    android:orientation="vertical">
+    
+    
+        <Button
+            android:id="@+id/small_map"
+            android:layout_width="40dp"
+            android:layout_height="40dp" 
+            android:background="@drawable/small_map"
+            android:layout_marginLeft="20dp"/>
+        <!-- 不能用baseline -->
+         <ImageView
+            android:id="@+id/niki_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/nike_gray" />
+      
+         <Button
+            android:id="@+id/lockscreen_button"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="270dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/unlocked_screen" />
+
+         
+         <TextView
+            android:id="@+id/run_distance"
+            style="@style/RunningFonts"
+            android:layout_width="185dp"
+            android:layout_height="75dp"
+            android:layout_below="@id/small_map"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="100sp"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:text="0.00"
+            android:textSize="70sp" />
+
+        <TextView
+            android:id="@+id/gongli"
+            style="@style/RunningFonts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/run_distance"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="75dp"
+            android:text="公里"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/aver_speed_view"
+            style="@style/RunningFonts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/run_distance"
+            android:layout_below="@id/gongli"
+            android:layout_marginTop="60dp"
+            android:text="0&apos;00&quot;"
+            android:textSize="20dip" />
+        
+        <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/small_time"
+            android:layout_alignBottom="@id/aver_speed_view"
+            android:layout_marginBottom="25dp"
+            android:layout_marginLeft="83dp"
+            android:background="#003366"/>
+
+        <TextView
+            android:id="@+id/time_view"
+            style="@style/RunningFonts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/run_distance"
+            android:layout_below="@id/gongli"
+            android:layout_marginTop="60dp"
+            android:text="0&apos;00&quot;"
+            android:textSize="20dip" />
+        
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/stopwatch"
+            android:layout_alignBottom="@id/time_view"
+            android:layout_marginBottom="25dp"
+            android:layout_marginLeft="215dp"
+            android:background="#003366"/>
+        
+        <ImageButton 
+            android:id="@+id/pause_run_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/aver_speed_view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/pause_run"
+            android:background="#003366"/>
+        
+           <ImageButton 
+            android:id="@+id/finish_run_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/aver_speed_view"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="50dp"
+            android:src="@drawable/finish_run"
+            android:background="#FF1800"/>
+           
+            <ImageButton 
+            android:id="@+id/recovery_run_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/aver_speed_view"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="190dp"
+            android:src="@drawable/recovery_run"
+            android:background="#1DD300"/>
+            
+            <TextView 
+                android:id="@+id/ismusic_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pause_run_button"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:text="选择无音乐"
+                android:textColor="#ffffff"/>
+         
+     
+
+       
+
+</RelativeLayout>

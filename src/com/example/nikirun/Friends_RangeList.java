@@ -16,7 +16,7 @@ public class Friends_RangeList extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		mRangeListView = (ListView) inflater.inflate(R.layout.friends_range_hp, container,false);
+		mRangeListView = (ListView) inflater.inflate(R.layout.homepage_friends_range, container,false);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1,data);
 		mRangeListView.setAdapter(adapter);
 		
