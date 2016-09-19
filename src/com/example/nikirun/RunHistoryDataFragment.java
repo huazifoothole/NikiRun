@@ -6,37 +6,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.baidu.a.a.a.c;
 import com.example.nikirun.HistoryTrackData.Points;
 import com.example.nikirun.PinnedHeaderListView.PinnedHeaderAdapter;
 import com.example.nikirun.RunDatabaseHelper.RunCursor;
 
-import android.R.integer;
-import android.R.menu;
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.app.ListFragment;
 import android.support.v4.widget.CursorAdapter;
-import android.text.format.DateFormat;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnKeyListener;
-import android.view.WindowManager.LayoutParams;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -56,7 +42,7 @@ public class RunHistoryDataFragment extends Fragment implements OnItemClickListe
 		public static final String HISTORY_TRACE = "history_trace";
 		public static final String ISONLYQUERY = "only_query";
 		 
-		
+		//git test 10
 		public RunHistoryDataFragment() {
 			// TODO Auto-generated constructor stub
 			 
