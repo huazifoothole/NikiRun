@@ -32,6 +32,7 @@ import android.widget.AbsListView.OnScrollListener;
 
 public class RunHistoryDataFragment extends Fragment implements OnItemClickListener{
 	
+	//git test 100
 		private View view;
 		private ListView mRunHistoryListView;
 		private static RunCursor mRunCursor=null;
@@ -42,7 +43,7 @@ public class RunHistoryDataFragment extends Fragment implements OnItemClickListe
 		public static final String HISTORY_TRACE = "history_trace";
 		public static final String ISONLYQUERY = "only_query";
 		 
-		//git test 10
+	
 		public RunHistoryDataFragment() {
 			// TODO Auto-generated constructor stub
 			 
