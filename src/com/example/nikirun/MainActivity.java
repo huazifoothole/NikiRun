@@ -62,7 +62,7 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 		
 		SDKInitializer.initialize(getApplicationContext());
 		
-		  
+		  //git test1
 		setContentView(R.layout.activity_main);
 		 
 		//This does the magic! 隐藏actionbar左侧图标  transparent透明的
