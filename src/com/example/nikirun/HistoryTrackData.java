@@ -166,7 +166,7 @@ public class HistoryTrackData {
         return distance;
     }
 
-    public void setDistance(double distance) {
+    public void setDistance(int distance) {
         this.distance = distance;
     }
 

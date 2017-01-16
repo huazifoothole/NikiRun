@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-     <RelativeLayout
-         android:id="@+id/total_rundata_layout"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:layout_weight="1" 
-         android:background="#ffffff">
-
+    android:orientation="vertical" 
+    android:background="#ffffff"
+    android:id="@+id/person_total_rundata"
+    >
          <TextView
              android:id="@+id/total_kilometre_view"
              android:layout_width="wrap_content"
@@ -22,7 +17,6 @@
              android:textSize="70sp"
              android:textColor="#ff0033"
              android:textStyle="italic|bold" />
-         
          
          <TextView
              android:id="@+id/totalkm_view"
@@ -93,16 +87,6 @@
              android:layout_gravity="center_horizontal"
              android:text="NIKIFUEL"/>
 
-         <!--  <fragment 
-            android:id="@+id/range_list"
-            android:name="com.example.nikirun.Friends_RangeList"
-            android:layout_width="match_parent"
-            android:layout_height="240dip"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/textView1"
-            android:layout_marginTop="20dp"
-            /> -->
-        
          <fragment 
             android:id="@+id/range_list"
             android:name="com.example.nikirun.Friends_RangeList"
@@ -112,16 +96,15 @@
             android:layout_below="@+id/textView1"
             android:layout_marginTop="20dp"
             />
-       
-     </RelativeLayout>
-    
-    <Button
-        android:id="@+id/beginRun_bt"
-        android:layout_width="match_parent"
-        android:layout_height="73dp"
-        android:background="#ff0700" 
-        android:text="开始跑步"
-        android:textColor="#ffffff"
-        />
+      
+     <Button
+         android:id="@+id/beginRun_bt"
+         android:layout_width="match_parent"
+         android:layout_height="73dp"
+         android:layout_alignParentBottom="true"
+         android:layout_alignParentLeft="true"
+         android:background="#ff0700"
+         android:text="开始跑步"
+         android:textColor="#ffffff" />
    
-</LinearLayout>
+</RelativeLayout>

@@ -217,7 +217,7 @@ public class DateUtils {
 			int h = (int) (time/3600000);
 			int m = (int) ((time%3600000)/60000);
 			int s = (int) ((time%60000)/1000);
-			interval = h +"h"+m+"min"+s+"s";
+			interval = h +"h"+m+"m"+s+"s";
 		}
 		 
     	return interval;

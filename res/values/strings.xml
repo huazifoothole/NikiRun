@@ -13,5 +13,8 @@
     <string name="title_section5">教练</string>
     <string name="title_section6">设定</string>
     <string name="title_section7">购买 Niki</string>
+    <string name="title_section0">登录</string>
+    <string name="action_addfriend">加好友</string>
+    <string name="user_info">个人信息</string>
  
 </resources>

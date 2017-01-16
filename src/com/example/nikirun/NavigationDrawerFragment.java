@@ -7,6 +7,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -56,7 +57,7 @@ public class NavigationDrawerFragment extends Fragment {
 	private ListView mDrawerListView;
 	private View mFragmentContainerView;
 
-	private int mCurrentSelectedPosition = 0;
+	private int mCurrentSelectedPosition = 1;//第一次进入应用 显示主页
 	private boolean mFromSavedInstanceState;
 	private boolean mUserLearnedDrawer;
 
@@ -80,6 +81,7 @@ public class NavigationDrawerFragment extends Fragment {
 
 		// Select either the default item (0) or the last selected item.
 		selectItem(mCurrentSelectedPosition);
+		
 	}
 
 	@Override
@@ -101,9 +103,10 @@ public class NavigationDrawerFragment extends Fragment {
 		});
 		mDrawerListView.setAdapter(new ArrayAdapter<String>(getActionBar().getThemedContext(),
 				android.R.layout.simple_list_item_activated_1, android.R.id.text1,
-				new String[] { getString(R.string.title_section1), getString(R.string.title_section2),
+				new String[] { getString(R.string.title_section0),getString(R.string.title_section1), getString(R.string.title_section2),
 						getString(R.string.title_section3),getString(R.string.title_section4),getString(R.string.title_section5),getString(R.string.title_section6),getString(R.string.title_section7), }));
 		mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+		
 		return mDrawerListView;
 	}
 
@@ -283,9 +286,11 @@ public class NavigationDrawerFragment extends Fragment {
 		actionBar.setTitle(R.string.app_name);
 	}
 
-	private ActionBar getActionBar() {
+	private  ActionBar getActionBar() {
 		return getActivity().getActionBar();
 	}
+	
+	 
 
 	/**
 	 * Callbacks interface that all activities using this fragment must

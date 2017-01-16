@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
+import android.util.Log;
 
 public class RunDatabaseHelper extends SQLiteOpenHelper {
 
@@ -67,6 +68,12 @@ public class RunDatabaseHelper extends SQLiteOpenHelper {
 		return new RunCursor(wrapped);
 	}
 	
+	public int deleteRunCursor(String id) {
+		int count = getReadableDatabase().delete(TABLE_RUN,"start_date = ?", new String[]{id});
+		Log.i(MainActivity.TAG, "count ==="+count);
+		return count;
+		
+	}
 	public static class RunCursor extends CursorWrapper {
 		
 		public RunCursor(Cursor cursor) {

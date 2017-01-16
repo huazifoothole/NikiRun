@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="14dp"
+        android:text="请填写注册信息" />
+    
+     <EditText
+         android:id="@+id/userNameText"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignLeft="@+id/textView1"
+         android:layout_below="@+id/textView1"
+         android:layout_marginTop="20dp"
+         android:hint="用户名" 
+          android:layout_marginRight="12dp"
+        />
+     
+     
+     <Spinner
+	    android:id="@+id/sexSpinner"
+	    android:layout_width="wrap_content"
+	    android:layout_height="35dp"
+	    android:layout_alignLeft="@+id/userNameText"
+	    android:layout_below="@+id/userNameText"
+	    android:layout_marginTop="16dp"
+	    android:layout_marginRight="12dp"
+	    />
+
+    <EditText
+        android:id="@+id/emailText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/sexSpinner"
+        android:layout_below="@+id/sexSpinner"
+        android:layout_marginTop="16dp"
+        android:hint="邮箱"
+        android:layout_marginRight="12dp">
+    </EditText>
+    
+    <EditText
+	    android:id="@+id/passwordText"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/emailText"
+	    android:layout_below="@+id/emailText"
+	    android:layout_marginRight="12dp"
+	    android:layout_marginTop="16dp"
+	    android:hint="密码"
+	    android:inputType="textPassword" >
+	</EditText>
+	
+    	<EditText
+    	    android:id="@+id/confirmPasswordText"
+    	    android:layout_width="match_parent"
+    	    android:layout_height="wrap_content"
+    	    android:layout_alignLeft="@+id/passwordText"
+    	    android:layout_below="@+id/passwordText"
+    	    android:layout_marginRight="12dp"
+    	    android:layout_marginTop="16dp"
+    	    android:hint="确认密码"
+    	    android:inputType="textPassword" >
+		</EditText>
+	
+	<Button
+	    android:id="@+id/registerButton"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_marginBottom="38dp"
+	    android:layout_toRightOf="@+id/textView1"
+	    android:text="立即注册" />
+
+
+</RelativeLayout>

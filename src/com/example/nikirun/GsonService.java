@@ -5,6 +5,8 @@ import java.util.regex.Pattern;
 
 import com.google.gson.Gson;
 
+import android.util.Log;
+
 public class GsonService {
 
     private static final Pattern REG_UNICODE = Pattern.compile("[0-9A-Fa-f]{4}");
@@ -17,7 +19,8 @@ public class GsonService {
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
-            System.out.println("解析json失败");
+//            System.out.println("解析json失败");
+            Log.i(MainActivity.TAG, "解析json失败");
         }
         return t;
 

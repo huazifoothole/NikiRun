@@ -9,13 +9,59 @@
            android:layout_height="327dp"
            android:clickable="true" />
    
-    <FrameLayout 
-        android:id="@+id/fragment_history"
+     
+    <RelativeLayout 
+        android:id="@+id/rundata_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/bdmapview">
+        android:layout_below="@id/bdmapview"
+        android:background="#3d3d3d"
+        >
         
-    </FrameLayout>
-   
+         
+        <TextView
+            android:id="@+id/distance_view"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="10k"
+            android:textSize="30dp" 
+            android:textColor="#ffffff"/>
+       
+
+        <TextView
+            android:id="@+id/speed_view"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="5&apos;28"
+            android:textColor="#ffffff"
+            android:textSize="30dp" />
+
+        <TextView
+            android:id="@+id/expandtime_view"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+             android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="30dp" />
+ 
+    </RelativeLayout>
+  
+
+      <Button
+          android:id="@+id/submit"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/rundata_view"
+          android:layout_centerHorizontal="true"
+          android:layout_marginTop="16dp"
+          android:text="同步"
+           />
+
 
 </RelativeLayout>

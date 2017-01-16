@@ -1,12 +1,12 @@
 package com.example.nikirun;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -14,12 +14,14 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
+import com.baidu.platform.comapi.map.r;
 import com.baidu.trace.LBSTraceClient;
 import com.baidu.trace.LocationMode;
 import com.baidu.trace.OnTrackListener;
 import com.example.nikirun.HistoryTrackData.Points;
 import com.google.gson.Gson;
 
+import android.R.string;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -30,17 +32,24 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListListener;
+import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
-public class RunQueryHistoryActivity extends Activity {
+public class RunQueryHistoryActivity extends Activity implements OnClickListener{
 	
 	
 	private int queryStartTime = 0;
     private int queryEndTime = 0;
     
-    public static String startRunTime="",finishRunTime="";
+    public static String startRunTime="",finishRunTime="",expendTime="",userRunedData="";
     private RunDatabaseHelper mDbHelper;
     
     private static final String TABLE_RUN = "run";
@@ -77,11 +86,19 @@ public class RunQueryHistoryActivity extends Activity {
 	
 	protected static MapView bMapView = null;  
 	
-	private static Gson gson;
-	
 	public static boolean isUpdateRunData = false;
 	
-	 
+	private TextView mDistanceView;
+	
+	private TextView mSpeedView;
+	
+	private TextView mExpendView;
+	
+	private static boolean isOnlyQuery = false;
+	
+	private Button submitButton;
+	
+	private HistoryTrackData mTrackData;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,12 +117,15 @@ public class RunQueryHistoryActivity extends Activity {
         bMapView = (MapView) findViewById(R.id.bdmapview);
         mBaiduMap = bMapView.getMap();
         
+        mDistanceView = (TextView) findViewById(R.id.distance_view);
+        mSpeedView = (TextView) findViewById(R.id.speed_view);
+        mExpendView = (TextView) findViewById(R.id.expandtime_view);
         // 不显示地图缩放控件（按钮控制栏）  
 //        bMapView.showZoomControls(false);
         
         Intent intent = getIntent();
         String historyTrace = intent.getStringExtra(RunHistoryDataFragment.HISTORY_TRACE);
-        boolean isOnlyQuery = intent.getBooleanExtra(RunHistoryDataFragment.ISONLYQUERY, false);
+        isOnlyQuery = intent.getBooleanExtra(RunHistoryDataFragment.ISONLYQUERY, false);
         if(isOnlyQuery && historyTrace != null){
         	showHistoryTrack(historyTrace);
         }
@@ -119,8 +139,8 @@ public class RunQueryHistoryActivity extends Activity {
     		mDbHelper = new RunDatabaseHelper(getApplicationContext());
         }
 		
-		
-		
+		submitButton = (Button) findViewById(R.id.submit);
+		submitButton.setOnClickListener(this);
 	}
 	
 	@Override
@@ -208,22 +228,33 @@ public class RunQueryHistoryActivity extends Activity {
 	
 	public void showHistoryTrack(String historyTrack) {
 		
-		HistoryTrackData historyTrackData = GsonService.parseJson(historyTrack, 
+		Log.i(MainActivity.TAG, "showHistoryTrack");
+		mTrackData = GsonService.parseJson(historyTrack, 
 				HistoryTrackData.class);
-
+		userRunedData = historyTrack;
 		List<Points> pointList = new ArrayList<HistoryTrackData.Points>();
 		List<LatLng> latLngList  =new ArrayList<LatLng>();
-		if(historyTrackData != null && historyTrackData.getStatus() == 0 ){
-			if(historyTrackData.getListPoints() != null)
-			latLngList.addAll(historyTrackData.getListPoints());
-			pointList.addAll(historyTrackData.getPoints());
+		if(mTrackData != null && mTrackData.getStatus() == 0 ){
+			if(mTrackData.getListPoints() != null)
+			latLngList.addAll(mTrackData.getListPoints());
+			pointList.addAll(mTrackData.getPoints());
 		}
 		
 		getTracePoint(pointList);
 		
 		// 绘制历史轨迹
-        drawHistoryTrack(latLngList,historyTrackData.distance);
+        drawHistoryTrack(latLngList,mTrackData.distance);
+
         
+        if(isOnlyQuery){
+			Intent intent = getIntent();
+	        startRunTime = intent.getStringExtra(RunHistoryDataFragment.COLUMN_RUN_START_DATE);
+	        finishRunTime = intent.getStringExtra(RunHistoryDataFragment.COLUMN_RUN_END_DATE);
+		}
+       
+		expendTime = DateUtils.getInterval(startRunTime, finishRunTime);
+		Log.i(MainActivity.TAG,"start time="+startRunTime+"finished Time=="+finishRunTime+"eTime ="+expendTime);
+
         
         //若只是在RunHistoryDataFragment 中查看则不更新数据库
         if(isUpdateRunData){
@@ -235,8 +266,13 @@ public class RunQueryHistoryActivity extends Activity {
              contentValues.put(COLUMN_RUN_END_DATE, finishRunTime);
              contentValues.put(COLUMN_RUN_TRACK_DATA, historyTrack);
              database.insert(TABLE_RUN, null, contentValues);
+             
         }
+        
+        mDistanceView.setText((int)mTrackData.distance + "m");
        
+ 
+        
 	}
 	
 	private void getTracePoint(final List<HistoryTrackData.Points> points){
@@ -248,10 +284,7 @@ public class RunQueryHistoryActivity extends Activity {
 			TrackApplication.showMessage("当前查询无轨迹点");
 		}else if(points.size() > 1){
 			Points points0 = points.get(0);
-			finishRunTime = points0.create_time;
-	      
-			String eTime = DateUtils.getInterval(startRunTime, finishRunTime);
-			Log.i(MainActivity.TAG,"finished Time=="+finishRunTime+"eTime ="+eTime);
+		 
 			
 		}
 		
@@ -346,6 +379,100 @@ public class RunQueryHistoryActivity extends Activity {
         polylineOptions = null;
     }
 
+	private void saveData(){
+		Log.i(MainActivity.TAG, "submit---");
+		if(startRunTime != "" && expendTime != "" && userRunedData != ""){
+			RunUser runner =  BmobUser.getCurrentUser(RunUser.class);
+			UserRunData user = new UserRunData();
+			user.setRunDate(startRunTime); 
+			user.setRunTime(expendTime);
+			user.setRunData(userRunedData); 
+			HistoryTrackData trackData = GsonService.parseJson(userRunedData, 
+					HistoryTrackData.class);
+			double distance = ((int)(trackData.distance*100))/100;
+			Log.i(MainActivity.TAG, "distance ="+distance);
+			user.setRunDistance(distance);
+			user.setRunUser(runner);
+			user.save(new SaveListener<String>() {
+
+				@Override
+				public void done(String arg0, BmobException e) {
+					// TODO Auto-generated method stub
+					if(e == null){
+						Toast.makeText(getApplicationContext(), "save data success", Toast.LENGTH_SHORT).show();
+					}else {
+						Log.i(MainActivity.TAG,"save 失败："+e.getMessage()+","+e.getErrorCode());
+					}
+				}
+			});
+		}
+	}
+	
+	
+	private void updateData(UserRunData userData){
+		Log.i(MainActivity.TAG, "submit---");
+		if(startRunTime != "" && expendTime != "" && userRunedData != ""){
+			RunUser runner =  BmobUser.getCurrentUser(RunUser.class);
+			userData.setRunDate(startRunTime); 
+			userData.setRunTime(expendTime);
+			userData.setRunData(userRunedData); 
+			double distance = ((int)(mTrackData.distance*100))/100;
+			userData.setRunDistance(distance);
+			userData.setRunUser(runner);
+			Log.i(MainActivity.TAG, "runner name ="+runner.getUsername());
+			userData.update(new UpdateListener() {
+				
+				@Override
+				public void done(BmobException e) {
+					// TODO Auto-generated method stub
+					if(e == null){
+						Toast.makeText(getApplicationContext(), "update data success", Toast.LENGTH_SHORT).show();
+					}else {
+						Log.i(MainActivity.TAG,"update 失败："+e.getMessage()+","+e.getErrorCode());
+					}
+				}
+			});
+		}
+	}
+	
+	private void checkUserData(){
+		BmobQuery<UserRunData> query = new BmobQuery<UserRunData>();
+		query.addWhereEqualTo("runDate", startRunTime);
+		query.findObjects(new FindListener<UserRunData>() {
+			
+			@Override
+			public void done(List<UserRunData> dataList, BmobException e) {
+				// TODO Auto-generated method stub
+				if(e == null){
+					//已有数据
+					Log.i(MainActivity.TAG, "check data ok");
+					if(dataList.size()>0){
+						updateData(dataList.get(0));
+					}else{
+						Log.i(MainActivity.TAG, "check data size = 0");
+						saveData();
+					}
+				}else{
+					Log.i(MainActivity.TAG, "can not find");
+				}
+			}
+		});
+		 
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		
+		switch (v.getId()) {
+		case R.id.submit:
+				checkUserData();
+			break;
+		default:
+			break;
+		}
+		 
+	}
 	
 	 
 }

@@ -2,18 +2,16 @@ package com.example.nikirun;
 
 import android.app.Activity;
 
+import java.util.List;
+
 import com.baidu.mapapi.SDKInitializer;
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.MapView;
 
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
-import android.nfc.Tag;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,13 +19,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.TextView;
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+ 
+ 
 
 public class MainActivity extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks{
 
@@ -41,11 +41,16 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 	 * Used to store the last screen title. For use in
 	 * {@link #restoreActionBar()}.
 	 */
-	private CharSequence mTitle;
+	private static CharSequence mTitle;
 	
 	private HomePageFragment mhomePageFragment;
 	
 	private RunHistoryDataFragment mRunHistoryDataFragment;
+	
+	private LoginFragment mLoginFragment;
+	
+	private FriendsList mFriendsList;
+	 
 	
 	/**
      * entity标识
@@ -64,18 +69,49 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 		
 		  
 		setContentView(R.layout.activity_main);
+		
+		Bmob.initialize(this,"a7dbaff012922213ea36d42a7aca4196");
 		 
 		//This does the magic! 隐藏actionbar左侧图标  transparent透明的
 		getActionBar().setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 		
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
-		mTitle = getTitle();
+		mTitle = getString(R.string.title_section1);
 	 
-
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 		
+		SharedPreferences sharedPreferences = getSharedPreferences(LoginFragment.USER_INFO, MODE_PRIVATE);
+		Boolean login = sharedPreferences.getBoolean(LoginFragment.LOGIN_STATUS, false);
+//		if(login)
+//			queryMyRunData();
+		 
+	}
+	
+	 
+	
+	private void queryMyRunData() {
+		RunUser runner = BmobUser.getCurrentUser(RunUser.class);
+		BmobQuery<UserRunData> query = new BmobQuery<UserRunData>();
+		query.addWhereEqualTo("runner", runner);
+		query.include("runner");
+		query.findObjects(new FindListener<UserRunData>() {
+			
+			@Override
+			public void done(List<UserRunData> arg0, BmobException e) {
+				// TODO Auto-generated method stub
+					if(e==null){
+						Log.i(TAG, "queryMyRunData success");
+						
+					}else{
+						Log.i(TAG, "queryMyRunData fail " + e.getMessage());
+					}
+			}
+		});
+		
+	
+	
 	}
 
 	@Override
@@ -86,16 +122,35 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 		android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		switch (position) {
 		case 0:
+			if(mLoginFragment == null)
+				mLoginFragment = new LoginFragment();
+			
+			SharedPreferences sharedPreferences = getSharedPreferences(LoginFragment.USER_INFO, MODE_PRIVATE);
+			boolean islogin = sharedPreferences.getBoolean(LoginFragment.LOGIN_STATUS, false);
+			if(islogin){
+				Intent intent = new Intent(this,UserInfoActivity.class);
+				startActivity(intent);
+				fragmentTransaction.addToBackStack(null);
+			}else
+			{
+				fragmentTransaction.replace(R.id.container, mLoginFragment);
+				fragmentTransaction.addToBackStack(null);
+			}
+			
+			mTitle = getString(R.string.title_section0);
+			restoreActionBar();
+			break;
+		case 1:
 			if(mhomePageFragment == null)
 			mhomePageFragment = new HomePageFragment();
 			
 			fragmentTransaction.replace(R.id.container, mhomePageFragment);
-//			fragmentTransaction.addToBackStack(null);
+			fragmentTransaction.addToBackStack(null);
 			 
 			mTitle = getString(R.string.title_section1);
 			restoreActionBar();
 			break;
-		case 1:
+		case 2:
 			 if(mRunHistoryDataFragment == null){
 				 mRunHistoryDataFragment = new RunHistoryDataFragment();
 			 }
@@ -105,6 +160,17 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 			 
 			 mTitle = getString(R.string.title_section2);
 			 restoreActionBar();
+			break;
+		case 3:
+			if(mFriendsList == null){
+				mFriendsList = new FriendsList();
+			}
+			
+			fragmentTransaction.replace(R.id.container, mFriendsList);
+			fragmentTransaction.addToBackStack(null);
+			
+			mTitle = getString(R.string.title_section3);
+			restoreActionBar();
 			break;
 		default:
 			fragmentTransaction.replace(R.id.container, PlaceholderFragment.newInstance(position + 1));
@@ -120,35 +186,37 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 		 
 		switch (number) {
 		case 1:
-			mTitle = getString(R.string.title_section1);
+			mTitle = getString(R.string.title_section0);
 			break;
 		case 2:
-			mTitle = getString(R.string.title_section2);
+			mTitle = getString(R.string.title_section1);
 			break;
 		case 3:
-			mTitle = getString(R.string.title_section3);
+			mTitle = getString(R.string.title_section2);
 			break;
 		case 4:
-			mTitle = getString(R.string.title_section4);
+			mTitle = getString(R.string.title_section3);
 			break;
 		case 5:
-			mTitle = getString(R.string.title_section5);
+			mTitle = getString(R.string.title_section4);
 			break;
 		case 6:
-			mTitle = getString(R.string.title_section6);
+			mTitle = getString(R.string.title_section5);
 			break;
 		case 7:
+			mTitle = getString(R.string.title_section6);
+			break;
+		case 8:
 			mTitle = getString(R.string.title_section7);
 			break;
 		}
 	}
 
 	public void restoreActionBar() {
-		ActionBar actionBar = getActionBar();
+		ActionBar  actionBar =   getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(mTitle);
-	 
 	}
 
 	@Override
@@ -158,7 +226,7 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 			// if the drawer is not showing. Otherwise, let the drawer
 			// decide what to show in the action bar.
 			getMenuInflater().inflate(R.menu.main, menu);
-			restoreActionBar();
+//			restoreActionBar();
 			return true;
 		}
 		return super.onCreateOptionsMenu(menu);
@@ -215,8 +283,10 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 		}
 	}
 
-	public void setTitle(String title) {
+	public static void setTitle(String title) {
 		mTitle = title;
 	}
+	
+	
 
 }
