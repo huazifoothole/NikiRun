@@ -70,6 +70,12 @@
         
         <activity 
             android:name=".RunQueryHistoryActivity"></activity>
+        <activity 
+            android:name=".UserInfoActivity"></activity>
+        <activity 
+            android:name=".CounDownActivity"></activity>
+        <activity 
+            android:name=".SearchFriends"></activity>
         
         <service
          	android:name="com.baidu.trace.LBSTraceService"

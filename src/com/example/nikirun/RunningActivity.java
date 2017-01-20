@@ -187,9 +187,9 @@ public class RunningActivity extends Activity implements OnClickListener{
 					mLocation = (TraceLocation) msg.obj;
 				 
 					if(mLocation!=null){
-						 mAverSpeedView.setText(String.valueOf(mLocation.getSpeed()/60));
+//						 mAverSpeedView.setText(String.valueOf(mLocation.getSpeed()/60));
 						 mAverSpeedView.setText(String.format("%4.2f", mLocation.getSpeed()/60));	
-						 Log.d(MainActivity.TAG, "speed="+mLocation.getSpeed());
+						 Log.d(MainActivity.TAG, "***speed="+mLocation.getSpeed());
 
 						 afterLatitude = mLocation.getLatitude();
 						 afterLongitude = mLocation.getLongitude();
@@ -225,9 +225,9 @@ public class RunningActivity extends Activity implements OnClickListener{
 				}
 			};
 		
-			timer = new Timer();
 			//4000，延时4秒后执行
 			//5000,每隔5秒执行一次task
+			timer = new Timer();
 			timer.schedule(timerTask, 4000, 5000);
 		}
 	
@@ -249,11 +249,11 @@ public class RunningActivity extends Activity implements OnClickListener{
 				
 				takeTimeHandler.postDelayed(this, 1000);
 				mSecond++ ;
-				while(mSecond > 60){
+				while(mSecond >= 60){
 					mSecond = 0;
 					mMiuntes++;
 				}
-				while(mMiuntes > 60){
+				while(mMiuntes >= 60){
 					mMiuntes = 0;
 					mHour++;
 				}

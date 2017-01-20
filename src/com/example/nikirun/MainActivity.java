@@ -110,8 +110,6 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 			}
 		});
 		
-	
-	
 	}
 
 	@Override

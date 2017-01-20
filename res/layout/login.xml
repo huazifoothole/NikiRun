@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
+    <ImageView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -12,7 +12,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="22dp"
         android:layout_marginTop="53dp"
-        android:text="用户名" />
+        android:background="@drawable/head"
+         />
 
     <EditText
         android:id="@+id/login_userNameText"
@@ -24,13 +25,14 @@
         android:layout_toRightOf="@+id/textView1"
         android:ems="10" />
 
-    <TextView
+    <ImageView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/login_passwordText"
         android:layout_alignLeft="@+id/textView1"
-        android:text="密码" />
+        android:background="@drawable/password"
+         />
 
     <EditText
         android:id="@+id/login_passwordText"
@@ -40,25 +42,72 @@
         android:layout_below="@+id/login_userNameText"
         android:layout_marginTop="39dp"
         android:layout_toRightOf="@+id/textView1"
-        android:inputType="textPassword" >
+        android:inputType="textPassword"
+        android:hint="请输入密码" >
 
     </EditText>
 
-    <Button
-        android:id="@+id/registerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/login_passwordText"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="26dp"
-        android:text="注册" />
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/login_passwordText"
         android:layout_centerVertical="true"
         android:text="登陆" />
+    
+     <Button
+        android:id="@+id/registerButton"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/loginButton"
+        android:layout_below="@id/loginButton"
+        android:textSize="10dip"
+        android:text="注册"
+        android:background="#ffffff" />
+     
+    <Button 
+        android:id="@+id/forget_password"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loginButton"
+        android:layout_alignLeft="@id/loginButton"
+        android:text="忘记密码"
+        android:textSize="10dip"
+        android:background="#ffffff"/>
+
+    <TextView
+        android:id="@+id/other_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/registerButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:text="————其他账号登录————" />
+    
+    <ImageButton 
+        android:id="@+id/wechat_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/other_login"
+        android:layout_alignLeft="@+id/other_login"
+        android:background="@drawable/wechat"
+        />
+
+     <ImageButton
+         android:id="@+id/weibo_login"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/other_login"
+         android:layout_centerHorizontal="true"
+         android:background="@drawable/weibo" />
+     
+     <ImageButton 
+         android:id="@+id/qq_login"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:background="@drawable/qq"
+         android:layout_below="@+id/other_login"
+         android:layout_alignRight="@+id/other_login"/>
 
 </RelativeLayout>

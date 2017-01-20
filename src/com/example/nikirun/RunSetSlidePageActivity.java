@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.R.anim;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract.Contacts.Data;
@@ -22,6 +23,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class RunSetSlidePageActivity extends FragmentActivity implements OnItemClickListener,OnClickListener{
@@ -43,6 +45,7 @@ public class RunSetSlidePageActivity extends FragmentActivity implements OnItemC
     private RunSetPagerAdapter mRunSetAdapter;
     private Button mBeginRunButton;
     private String Data[] = {"音乐","地点","方向","加油打气","跑步设置"};
+   
     
 
     @Override
@@ -92,7 +95,8 @@ public class RunSetSlidePageActivity extends FragmentActivity implements OnItemC
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		Intent intent = new Intent(RunSetSlidePageActivity.this,RunningActivity.class);
+		Intent intent = new Intent(RunSetSlidePageActivity.this,CounDownActivity.class);
+//		Intent intent = new Intent(RunSetSlidePageActivity.this,RunningActivity.class);
 		startActivity(intent);
 	}
 	

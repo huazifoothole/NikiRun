@@ -250,28 +250,31 @@ public class RunQueryHistoryActivity extends Activity implements OnClickListener
 			Intent intent = getIntent();
 	        startRunTime = intent.getStringExtra(RunHistoryDataFragment.COLUMN_RUN_START_DATE);
 	        finishRunTime = intent.getStringExtra(RunHistoryDataFragment.COLUMN_RUN_END_DATE);
+		}else{
+			checkUserData();
 		}
+			
        
 		expendTime = DateUtils.getInterval(startRunTime, finishRunTime);
 		Log.i(MainActivity.TAG,"start time="+startRunTime+"finished Time=="+finishRunTime+"eTime ="+expendTime);
 
         
         //若只是在RunHistoryDataFragment 中查看则不更新数据库
-        if(isUpdateRunData){
-        	 SQLiteDatabase database = mDbHelper.getWritableDatabase();
-             ContentValues contentValues = new ContentValues();
-//             startRunTime = "2016-08-12 14:20:12";
-//             finishRunTime = "2016-8-12 15:10:10";
-             contentValues.put(COLUMN_RUN_START_DATE, startRunTime);
-             contentValues.put(COLUMN_RUN_END_DATE, finishRunTime);
-             contentValues.put(COLUMN_RUN_TRACK_DATA, historyTrack);
-             database.insert(TABLE_RUN, null, contentValues);
-             
-        }
+//        if(isUpdateRunData){
+//        	 SQLiteDatabase database = mDbHelper.getWritableDatabase();
+//             ContentValues contentValues = new ContentValues();
+////             startRunTime = "2016-08-12 14:20:12";
+////             finishRunTime = "2016-8-12 15:10:10";
+//             contentValues.put(COLUMN_RUN_START_DATE, startRunTime);
+//             contentValues.put(COLUMN_RUN_END_DATE, finishRunTime);
+//             contentValues.put(COLUMN_RUN_TRACK_DATA, historyTrack);
+//             database.insert(TABLE_RUN, null, contentValues);
+//             
+//        }
         
         mDistanceView.setText((int)mTrackData.distance + "m");
        
- 
+        
         
 	}
 	
