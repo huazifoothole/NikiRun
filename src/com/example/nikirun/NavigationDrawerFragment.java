@@ -1,6 +1,9 @@
 package com.example.nikirun;
 
 import android.app.Activity;
+
+import com.baidu.platform.comapi.map.r;
+
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -8,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -73,7 +77,7 @@ public class NavigationDrawerFragment extends Fragment {
 		// drawer. See PREF_USER_LEARNED_DRAWER for details.
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
-
+		
 		if (savedInstanceState != null) {
 			mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
 			mFromSavedInstanceState = true;
@@ -101,9 +105,17 @@ public class NavigationDrawerFragment extends Fragment {
 				selectItem(position);
 			}
 		});
+		int tietle = R.string.title_section0;
+		SharedPreferences sharedPreferences = getActivity().getSharedPreferences(LoginFragment.USER_INFO, Context.MODE_PRIVATE);
+		boolean isloggin = sharedPreferences.getBoolean(LoginFragment.LOGIN_STATUS, false);
+		 
+		if(isloggin){
+			tietle = R.string.title_section8;
+		}
+		Log.d(MainActivity.TAG, "title==="+ isloggin);
 		mDrawerListView.setAdapter(new ArrayAdapter<String>(getActionBar().getThemedContext(),
 				android.R.layout.simple_list_item_activated_1, android.R.id.text1,
-				new String[] { getString(R.string.title_section0),getString(R.string.title_section1), getString(R.string.title_section2),
+				new String[] { getString(tietle),getString(R.string.title_section1), getString(R.string.title_section2),
 						getString(R.string.title_section3),getString(R.string.title_section4),getString(R.string.title_section5),getString(R.string.title_section6),getString(R.string.title_section7), }));
 		mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 		

@@ -50,14 +50,13 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 	private LoginFragment mLoginFragment;
 	
 	private FriendsList mFriendsList;
-	 
+	
 	
 	/**
      * entity标识
      */
     protected static String entityName = "MyRunTrace";
     public static final String TAG = "RunTraceLog";
-    
     
 	
 
@@ -71,7 +70,7 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 		setContentView(R.layout.activity_main);
 		
 		Bmob.initialize(this,"a7dbaff012922213ea36d42a7aca4196");
-		 
+		
 		//This does the magic! 隐藏actionbar左侧图标  transparent透明的
 		getActionBar().setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 		
@@ -82,8 +81,7 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 		
-		SharedPreferences sharedPreferences = getSharedPreferences(LoginFragment.USER_INFO, MODE_PRIVATE);
-		Boolean login = sharedPreferences.getBoolean(LoginFragment.LOGIN_STATUS, false);
+		
 //		if(login)
 //			queryMyRunData();
 		 

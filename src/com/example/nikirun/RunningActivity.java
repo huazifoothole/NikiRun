@@ -20,15 +20,19 @@ import android.util.Log;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
 
-public class RunningActivity extends Activity implements OnClickListener{
+public class RunningActivity extends Activity implements OnClickListener ,OnTouchListener{
 	
 	private ImageButton mRecoverRunBt;
 	private ImageButton mFinishedRunBt;
@@ -53,6 +57,10 @@ public class RunningActivity extends Activity implements OnClickListener{
 	double afterLatitude,afterLongitude;
 	boolean isOriginLatLng = false;
 	boolean isLockScreen = false;
+	private CirclePgBar mCirclePgBar;
+	private static Handler handler = new Handler();
+	
+	 
 	 
 	
 	private ServiceConnection  connection = new ServiceConnection() {
@@ -73,10 +81,14 @@ public class RunningActivity extends Activity implements OnClickListener{
 		}
 	}; 
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		
+		EventBus.getDefault().register(this);
+		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.running);
 		
@@ -84,6 +96,7 @@ public class RunningActivity extends Activity implements OnClickListener{
 		
 		Intent intent = new Intent(RunningActivity.this,RunTraceService.class);
 		bindService(intent, connection, BIND_AUTO_CREATE);
+		
 		 
 		getRunData();
 		
@@ -91,15 +104,17 @@ public class RunningActivity extends Activity implements OnClickListener{
 		
 		RunQueryHistoryActivity.startRunTime = getCurrentTime();
 		
+		
+		
 	}
 	
- 
+	 
 	
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		
+		EventBus.getDefault().unregister(this);
 		finish();
 	}
 	
@@ -114,6 +129,7 @@ public class RunningActivity extends Activity implements OnClickListener{
 		mPauseRunBt.setOnClickListener(this);
 		mRecoverRunBt.setOnClickListener(this);
 		mFinishedRunBt.setOnClickListener(this);
+		mFinishedRunBt.setOnTouchListener(this);
 		
 		mAverSpeedView = (TextView) findViewById(R.id.aver_speed_view);
 		mRunTimeView = (TextView) findViewById(R.id.time_view);
@@ -121,6 +137,9 @@ public class RunningActivity extends Activity implements OnClickListener{
 		
 		mLockButton = (Button) findViewById(R.id.lockscreen_button);
 		
+		mCirclePgBar = (CirclePgBar) findViewById(R.id.circleBar);
+		mCirclePgBar.setVisibility(View.INVISIBLE);
+		 
 	}
 	@Override
 	public void onClick(View v) {
@@ -134,9 +153,12 @@ public class RunningActivity extends Activity implements OnClickListener{
 			mRecoverRunBt.setVisibility(View.VISIBLE);
 			
 			isStartTimer = false;
+//			mCirclePgBar.setVisibility(View.VISIBLE);
+//			mCirclePgBar.beginDraw();
 			break;
 		case R.id.recovery_run_button:
 			mPauseRunBt.setVisibility(View.VISIBLE);
+			mCirclePgBar.setVisibility(View.INVISIBLE);
 			
 			mFinishedRunBt.setVisibility(View.INVISIBLE);
 			mRecoverRunBt.setVisibility(View.INVISIBLE);
@@ -144,22 +166,21 @@ public class RunningActivity extends Activity implements OnClickListener{
 			isStartTimer = true;
 			takeTimeHandler.postDelayed(takeTimeRunnable, 1000);
 			
-//			startService(intent);
 			
 			break;
-		case R.id.finish_run_button:
+//		case R.id.finish_run_button:
 			//注意释放服务连接
-			if(connection != null){
-				unbindService(connection);
-			}
-			
-			Intent intent2 = new Intent(RunningActivity.this,RunQueryHistoryActivity.class);
-			startActivity(intent2);
-			//停止计时器
-			takeTimeHandler.removeCallbacks(takeTimeRunnable);
-			RunQueryHistoryActivity.finishRunTime = getCurrentTime();
-			onDestroy();
-			break;
+//			if(connection != null){
+//				unbindService(connection);
+//			}
+//			
+//			Intent intent2 = new Intent(RunningActivity.this,RunQueryHistoryActivity.class);
+//			startActivity(intent2);
+//			//停止计时器
+//			takeTimeHandler.removeCallbacks(takeTimeRunnable);
+//			RunQueryHistoryActivity.finishRunTime = getCurrentTime();
+//			onDestroy();
+//			break;
 		case R.id.lockscreen_button:
 			if(!isLockScreen){
 				getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -169,11 +190,19 @@ public class RunningActivity extends Activity implements OnClickListener{
 				getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 				mLockButton.setBackground(getResources().getDrawable(R.drawable.unlocked_screen));
 			}
+	 
 			
 		default:
 			break;
 		}
 		 
+	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		// TODO Auto-generated method stub
+		return super.onTouchEvent(event);
+		
 	}
 	
 	private void getRunData() {
@@ -189,7 +218,6 @@ public class RunningActivity extends Activity implements OnClickListener{
 					if(mLocation!=null){
 //						 mAverSpeedView.setText(String.valueOf(mLocation.getSpeed()/60));
 						 mAverSpeedView.setText(String.format("%4.2f", mLocation.getSpeed()/60));	
-						 Log.d(MainActivity.TAG, "***speed="+mLocation.getSpeed());
 
 						 afterLatitude = mLocation.getLatitude();
 						 afterLongitude = mLocation.getLongitude();
@@ -280,6 +308,88 @@ public class RunningActivity extends Activity implements OnClickListener{
 		String  str = format.format(currentDate); 
 		return str;
 	}
+
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		// TODO Auto-generated method stub
+		switch (event.getAction() & MotionEvent.ACTION_MASK) {
+		case MotionEvent.ACTION_DOWN:
+			
+			mCirclePgBar.setVisibility(View.VISIBLE);
+			
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					handler.post(new Runnable() {
+						
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							mCirclePgBar.beginDraw(true);
+						}
+					});
+					
+				}
+			}).start();
+			
+//			if(mCirclePgBar.getProgress() == 100){
+//				if(connection != null){
+//					unbindService(connection);
+//				}
+//				
+//				Intent intent2 = new Intent(RunningActivity.this,RunQueryHistoryActivity.class);
+//				startActivity(intent2);
+//				//停止计时器
+//				takeTimeHandler.removeCallbacks(takeTimeRunnable);
+//				RunQueryHistoryActivity.finishRunTime = getCurrentTime();
+//				onDestroy();
+//			}
+//			
+		 
+			break;
+		case MotionEvent.ACTION_UP:
+			if(mCirclePgBar.getProgress() != 100){
+				mCirclePgBar.reDraw();
+			}
+			break;
+		default:
+			break;
+		}
 	
+		return true;
+	}
+	
+	public void finishRun() {
+		if(connection != null){
+			unbindService(connection);
+		}
+		
+		Intent intent2 = new Intent(RunningActivity.this,RunQueryHistoryActivity.class);
+		startActivity(intent2);
+		//停止计时器
+		takeTimeHandler.removeCallbacks(takeTimeRunnable);
+		RunQueryHistoryActivity.finishRunTime = getCurrentTime();
+		onDestroy();
+	}
+	
+	@Subscribe
+	public void finishEventBus(String string){
+		if(string.equals("finishRun")){
+			if(connection != null){
+				unbindService(connection);
+			}
+			
+			Intent intent2 = new Intent(RunningActivity.this,RunQueryHistoryActivity.class);
+			startActivity(intent2);
+			//停止计时器
+			takeTimeHandler.removeCallbacks(takeTimeRunnable);
+			RunQueryHistoryActivity.finishRunTime = getCurrentTime();
+			onDestroy();
+		}
+	}
+
 	 
 }

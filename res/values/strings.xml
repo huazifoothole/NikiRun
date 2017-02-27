@@ -16,5 +16,6 @@
     <string name="title_section0">登录</string>
     <string name="action_addfriend">加好友</string>
     <string name="user_info">个人信息</string>
+    <string name="title_section8">我</string>
  
 </resources>

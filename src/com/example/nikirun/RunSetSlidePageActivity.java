@@ -54,7 +54,7 @@ public class RunSetSlidePageActivity extends FragmentActivity implements OnItemC
         setContentView(R.layout.activity_runset_screenslide_pager);
         setTitle("跑步设定");
          
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.list_item1,Data);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.list_item1, Data);
         ListView listView = (ListView) findViewById(R.id.runset_listview);
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(this);
@@ -89,7 +89,14 @@ public class RunSetSlidePageActivity extends FragmentActivity implements OnItemC
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
-		
+		switch (position) {
+		case 0:
+			 
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	@Override
