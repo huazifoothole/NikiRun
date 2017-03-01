@@ -27,6 +27,7 @@ public class RunSetPagerAdapter extends PagerAdapter {
 		mListViewPager.add(v1);
 		mListViewPager.add(v2);
 		mListViewPager.add(V3);
+		
 	}
 	
 	@Override

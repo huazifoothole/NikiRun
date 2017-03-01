@@ -8,6 +8,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import de.greenrobot.event.EventBus;
  
 
@@ -29,6 +30,7 @@ public class CirclePgBar extends View {
     private int mHeight;
     private Canvas mCanvas;
     private boolean bDrawFlag;
+    
 	
 	public CirclePgBar(Context context) {
 		super(context);

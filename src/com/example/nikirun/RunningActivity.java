@@ -42,6 +42,7 @@ public class RunningActivity extends Activity implements OnClickListener ,OnTouc
 	private TextView mAverSpeedView;
 	private TextView mRunTimeView;
 	private TextView mRunDistance;
+	private TextView mlongPreView;
 	
 	private RunTraceService.TraceBinder traceBinder;
 	private TraceLocation mLocation;
@@ -104,8 +105,6 @@ public class RunningActivity extends Activity implements OnClickListener ,OnTouc
 		
 		RunQueryHistoryActivity.startRunTime = getCurrentTime();
 		
-		
-		
 	}
 	
 	 
@@ -139,7 +138,9 @@ public class RunningActivity extends Activity implements OnClickListener ,OnTouc
 		
 		mCirclePgBar = (CirclePgBar) findViewById(R.id.circleBar);
 		mCirclePgBar.setVisibility(View.INVISIBLE);
-		 
+		
+		mlongPreView = (TextView) findViewById(R.id.textView_longpress);
+		mlongPreView.setVisibility(View.INVISIBLE);
 	}
 	@Override
 	public void onClick(View v) {
@@ -317,6 +318,7 @@ public class RunningActivity extends Activity implements OnClickListener ,OnTouc
 		case MotionEvent.ACTION_DOWN:
 			
 			mCirclePgBar.setVisibility(View.VISIBLE);
+			mlongPreView.setVisibility(View.VISIBLE);
 			
 			new Thread(new Runnable() {
 				
@@ -354,6 +356,7 @@ public class RunningActivity extends Activity implements OnClickListener ,OnTouc
 			if(mCirclePgBar.getProgress() != 100){
 				mCirclePgBar.reDraw();
 			}
+			mlongPreView.setVisibility(View.INVISIBLE);
 			break;
 		default:
 			break;
